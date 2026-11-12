@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"GMMSet",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"GMMSet",
+  "parent":{
+    "name":"GMMovement",
+    "path":"folders/Libraries/GMMovement.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

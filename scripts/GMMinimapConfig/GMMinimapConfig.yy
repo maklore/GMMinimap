@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"GMMinimapConfig",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"GMMinimapConfig",
+  "parent":{
+    "name":"GMMinimaps",
+    "path":"folders/GMMinimaps.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

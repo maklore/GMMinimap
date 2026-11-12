@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"GMMGetData",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"GMMGetData",
+  "parent":{
+    "name":"Optional",
+    "path":"folders/Libraries/GMMovement/Optional.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

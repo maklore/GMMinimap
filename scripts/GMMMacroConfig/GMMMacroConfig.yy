@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"GMMMacroConfig",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"GMMMacroConfig",
+  "parent":{
+    "name":"Optional",
+    "path":"folders/Libraries/GMMovement/Optional.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

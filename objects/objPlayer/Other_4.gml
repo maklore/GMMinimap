@@ -1,0 +1,1 @@
+RESOLUTION.camera_room_start();

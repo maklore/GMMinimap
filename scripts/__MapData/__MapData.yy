@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"__MapData",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__MapData",
+  "parent":{
+    "name":"GMMinimaps",
+    "path":"folders/GMMinimaps.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
