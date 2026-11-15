@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"GMMinimapConfig",
   "parent":{
-    "name":"GMMinimaps",
-    "path":"folders/GMMinimaps.yy",
+    "name":"GMMinimap",
+    "path":"folders/GMMinimap.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

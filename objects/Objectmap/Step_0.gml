@@ -7,9 +7,9 @@ if keyboard_check(vk_shift) {
 	}
 } else {
 	if mouse_wheel_up() {
-		zoom = clamp(zoom + zoom_speed, 0.125, 2);	
+		zoom = clamp(zoom + zoom_speed, 0.0125, 2);	
 	}
 	if mouse_wheel_down() {
-		zoom = clamp(zoom - zoom_speed, 0.125, 2);
+		zoom = clamp(zoom - zoom_speed, 0.0125, 2);
 	}
 }

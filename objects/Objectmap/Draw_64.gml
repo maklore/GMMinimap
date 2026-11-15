@@ -1,1 +1,1 @@
-GMMinimap.draw(0, 0, 300, 300, zoom, opacity);
+GMMinimap.draw(1920 - 300, 0, 300, 300, zoom, opacity);

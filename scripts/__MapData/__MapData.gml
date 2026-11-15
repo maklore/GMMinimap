@@ -15,6 +15,7 @@ function __MapData() {
 	static __objects = undefined;
 	static __colours = undefined;
 	static __surface = undefined;
+	static __surface_fog = undefined;
 	
 	return static_get(__MapData);
 
