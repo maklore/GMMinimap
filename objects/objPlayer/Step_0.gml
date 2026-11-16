@@ -3,4 +3,5 @@ var _vertical = (keyboard_check(vk_down) or keyboard_check(ord("S"))) - (keyboar
 
 GMM.eight_way(_horizontal, _vertical);
 
-dir++;
+
+

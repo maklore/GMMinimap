@@ -23,6 +23,7 @@ function GMMinimap() {
 		
 		var _objects_count = array_length(_objects);
 		__data.__surface = surface_create(room_width, room_height);
+		
 		surface_set_target(__data.__surface);
 		
 		if GMMM_3D_game {

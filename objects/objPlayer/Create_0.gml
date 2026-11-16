@@ -5,5 +5,3 @@ RESOLUTION.camera_mode(CameraMODE.SPRINGY, 0.1);
 
 GMMInit(self, objWalls);
 GMMSet.walk(3, 0.32, 0.16);
-
-dir = 0;
