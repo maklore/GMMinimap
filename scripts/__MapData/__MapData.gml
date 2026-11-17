@@ -20,4 +20,5 @@ function __MapData() {
 	return static_get(__MapData);
 
 }
+
 __MapData();

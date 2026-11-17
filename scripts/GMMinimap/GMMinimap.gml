@@ -1,3 +1,7 @@
+/**
+ * Generate a minimap of set objects and colour(s) of the current room.
+ * @returns {struct.GMMinimap}
+ */
 function GMMinimap() {
 		
 	/**
