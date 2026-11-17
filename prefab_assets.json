@@ -1,0 +1,17 @@
+{
+  "Version": "1.0",
+  "assets": [
+    {
+      "export": 2,
+      "name": "__MapData"
+    },
+    {
+      "export": 2,
+      "name": "GMMinimap"
+    },
+    {
+      "export": 2,
+      "name": "GMMinimapConfig"
+    }
+  ]
+}

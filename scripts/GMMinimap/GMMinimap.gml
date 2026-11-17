@@ -1,11 +1,11 @@
 function GMMinimap() {
 		
 	/**
-	* Generate in an room start event a map of coloured rectangles instances in the current room based on set tags or objects.
+	* Add to an objects room start event, generate a map of instances in the current room based on set array of objects and colour(s).
 	* @param {asset.GMObject | id.instance} _player Player object asset or instance id.
 	* @param {constant.color} _player_colour Player colour.
 	* @param {array<asset.GMObject>} _objects Object assets.
-	* @param {constant.color | array<constant.color>} [_colours] Colour or an array of colours (if using an array, recommend using an array of objects above).
+	* @param {constant.color | array<constant.color>} [_colours] Colour, or an array of colours in order of object assets. (Ignore if GMMM_object_draw_sprites enabled in config).
 	*/
 	static generate = function(_player, _player_colour, _objects, _colours = c_white) {
 		
@@ -42,7 +42,7 @@ function GMMinimap() {
 				var _xoff   = sprite_get_xoffset(sprite_index);
 				var _yoff   = sprite_get_yoffset(sprite_index);
 				
-				if GMMM_object_sprites {
+				if GMMM_object_draw_sprites {
 					
 					other.__draw_sprite_stretched_rot(sprite_index, 0, x + _xoff, y + _yoff, sprite_width, sprite_height, image_angle, c_white, 1);
 				} else {
@@ -64,7 +64,7 @@ function GMMinimap() {
 	}
 	
 	/**
-	* Draw generated map and player.
+	* Draw generated map and player in a draw GUI event.
 	* @param {real} _x			X position.
 	* @param {real} _y			Y position.
 	* @param {real} _width		Width.
@@ -77,6 +77,7 @@ function GMMinimap() {
 		static __data = __MapData();
 		static __matrix_primary = matrix_build_identity();
 		static __matrix_secondary = matrix_build_identity();
+		
 		if is_undefined(__data.__objects) {
 			exit;	
 		}
@@ -101,7 +102,67 @@ function GMMinimap() {
 		var _half_x = _x * 0.5;
 		var _half_y = _y * 0.5;
 		
-		if surface_exists(__data.__surface) {
+
+		if GMMM_map_circular {
+			
+			if !surface_exists(__data.__surface_circle) {
+				__data.__surface_circle = surface_create(_width, _height);
+			}
+			
+			surface_set_target(__data.__surface_circle);
+			draw_clear_alpha(c_black, 0);
+				
+			if surface_exists(__data.__surface) {
+			
+				if GMMM_background_enabled {
+					if is_undefined(GMMM_background_sprite) {
+						draw_sprite_stretched_ext(__data.__pixel_sprite, 0, 0, 0, _width, _height, GMMM_background_colour, _alpha);
+					} else {
+						draw_sprite_stretched_ext(GMMM_background_sprite, 0, 0, 0, _width, _height, c_white, _alpha);	
+					}
+				}
+			
+				if GMMM_map_rotate and !is_undefined(GMMM_map_rotate_angle_target) {
+					
+					var _scissor = gpu_get_scissor()
+					var _resolution_width_scale = window_get_width() / display_get_gui_width();
+					var _resolution_height_scale = window_get_height() / display_get_gui_height();
+					gpu_set_scissor(0, 0, _width, _height);
+					matrix_build(_half_width, _half_height, 0, 0, 0, GMMM_map_rotate_angle_target, 1, 1, 1, __matrix_secondary);
+					matrix_set(matrix_world, __matrix_secondary);
+
+					draw_surface_part_ext(__data.__surface,
+										  _map_pos_x, 
+										  _map_pos_y, 
+										  _map_width, 
+										  _map_height,
+										  -_half_width, 
+										  -_half_height, 
+										  _scale, _scale, 
+										  c_white, _alpha);
+			
+					matrix_set(matrix_world, __matrix_primary);
+					gpu_set_scissor(_scissor);
+				
+				} else {
+				
+					draw_surface_part_ext(__data.__surface, _map_pos_x, _map_pos_y, _map_width, _map_height, 0, 0, _scale, _scale, c_white, _alpha);
+				}
+			}
+			
+			gpu_set_blendmode(bm_subtract);
+			draw_sprite_stretched_ext(__data.__pixel_sprite, 0, 0, 0, _width, _height, c_black, _alpha);
+			gpu_set_blendmode(bm_add);
+			draw_circle_colour(_half_width, _half_height, _half_width, c_black, c_black, false);			
+			gpu_set_blendmode(bm_normal);
+			surface_reset_target();
+			
+			if surface_exists(__data.__surface_circle) {
+				draw_surface(__data.__surface_circle, _x, _y);
+			}
+		} 
+		
+		if !GMMM_map_circular and surface_exists(__data.__surface) {
 			
 			if GMMM_background_enabled {
 				if is_undefined(GMMM_background_sprite) {
@@ -111,12 +172,13 @@ function GMMinimap() {
 				}
 			}
 			
-			if GMMM_rotate_map and !is_undefined(GMMM_rotate_map_angle_target) {
+			if GMMM_map_rotate and !is_undefined(GMMM_map_rotate_angle_target) {
+				
 				var _scissor = gpu_get_scissor()
 				var _resolution_width_scale = window_get_width() / display_get_gui_width();
 				var _resolution_height_scale = window_get_height() / display_get_gui_height();
 				gpu_set_scissor(_x * _resolution_width_scale, _y * _resolution_height_scale, _width * _resolution_width_scale, _height * _resolution_height_scale);
-				matrix_build(_x + _half_width, _y + _half_height, 0, 0, 0, GMMM_rotate_map_angle_target, 1, 1, 1, __matrix_secondary);
+				matrix_build(_x + _half_width, _y + _half_height, 0, 0, 0, GMMM_map_rotate_angle_target, 1, 1, 1, __matrix_secondary);
 				matrix_set(matrix_world, __matrix_secondary);
 
 				draw_surface_part_ext(__data.__surface,
@@ -133,10 +195,11 @@ function GMMinimap() {
 				gpu_set_scissor(_scissor);
 				
 			} else {
+				
 				draw_surface_part_ext(__data.__surface, _map_pos_x, _map_pos_y, _map_width, _map_height, _x, _y, _scale, _scale, c_white, _alpha);
 			}
 		}
-		
+
 		//Player
 		var _player_width  = __data.__player.sprite_width * _scale;
 		var _player_height = __data.__player.sprite_height * _scale;
@@ -145,11 +208,12 @@ function GMMinimap() {
 		var _player_x = _x + _half_width - _player_half_width;
 		var _player_y = _y + _half_height - _player_half_height;
 
-		__draw_sprite_stretched_rot(__data.__pixel_sprite, 0, _player_x + _player_half_width, _player_y + _player_half_height, _player_width, _player_height, GMMM_rotate_map ? GMMM_rotate_map_angle_target : 0, __data.__player_colour, 1);
+		__draw_sprite_stretched_rot(__data.__pixel_sprite, 0, _player_x + _player_half_width, _player_y + _player_half_height, _player_width, _player_height, GMMM_map_rotate ? GMMM_map_rotate_angle_target : 0, __data.__player_colour, 1);
 		
-		if !is_undefined(GMMM_frame_sprite)  {
-			draw_sprite_stretched_ext(GMMM_frame_sprite, 0, _x, _y, _width, _height, c_white, 1);
-		}
+		if !is_undefined(GMMM_frame_set_sprite)  {
+			draw_sprite_stretched_ext(GMMM_frame_set_sprite, 0, _x, _y, _width, _height, c_white, 1);
+		}	
+
 	}
 	
 	/**
@@ -158,6 +222,10 @@ function GMMinimap() {
 	static cleanup = function() {
 		
 		static __data = __MapData();
+		
+		if surface_exists(__data.__surface_circle) {
+			surface_free(__data.__surface_circle);
+		}
 		
 		if surface_exists(__data.__surface) {
 			surface_free(__data.__surface);
@@ -169,7 +237,9 @@ function GMMinimap() {
 		__data.__map_room_height = 0;
 		__data.__map_room_half_width  = 0;
 		__data.__map_room_half_height = 0;
+		__data.__surface_circle = undefined;
 		__data.__surface = undefined;
+
 		
 	}
 	
