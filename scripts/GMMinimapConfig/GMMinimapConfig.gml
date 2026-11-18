@@ -1,7 +1,7 @@
 //**			GMMinimap config				  **//
 //--------------------------------------------------//
 
-//If game uses zwrite_enable set to true.
+//If game uses ztestenable set to true.
 #macro GMMM_3D_game						false
 //--------------------------------------------------//
 
