@@ -42,10 +42,11 @@ function GMMinimap() {
 			var _layer_count = array_length(_layer);
 			for (var i = 0; i < _layer_count; ++i) {
 				var _layer_tilemap = layer_tilemap_get_id(_layer[i]);
-				var _tileset = tilemap_get_tileset(_layer_tilemap);
-				var _tile_width = tilemap_get_tile_width(_layer_tilemap);
-				var _tile_height = tilemap_get_tile_height(_layer_tilemap);
+				
 				if _layer_tilemap != -1 {
+					var _tileset = tilemap_get_tileset(_layer_tilemap);
+					var _tile_width = tilemap_get_tile_width(_layer_tilemap);
+					var _tile_height = tilemap_get_tile_height(_layer_tilemap);
 					var _width_count = __data.__map_room_width / _tile_width;
 					var _height_count = __data.__map_room_height / _tile_height;
 					for (var w = 0; w < _width_count; ++w) {
