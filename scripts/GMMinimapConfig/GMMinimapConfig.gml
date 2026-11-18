@@ -32,3 +32,6 @@
 //Set true if objects should draw assigned sprites.
 #macro GMMM_object_draw_sprites			false
 //--------------------------------------------------//
+//Set true to draw tilesets.
+#macro GMMM_tilesets_draw				true
+//--------------------------------------------------//
