@@ -13,7 +13,7 @@
   ```
 - Add to room start event:
   ```gml
-  GMMinimap.generate(objPlayer, c_red, [objWall, objDoor], [c_gray, c_orange]);
+  GMMinimap.generate(objPlayer, c_red, [objWall, objDoor]);
   ```
 - Add to draw GUI event
   ```gml
