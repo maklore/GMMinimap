@@ -23,14 +23,10 @@
 #macro GMMM_background_enabled			true
 
 //Set background colour, ignored if sprite is used.
-#macro GMMM_background_colour			c_gray
+#macro GMMM_background_colour			c_black
 
 //Set background sprite.
 #macro GMMM_background_sprite			undefined
-//--------------------------------------------------//
-
-//Set true if objects should draw assigned sprites.
-#macro GMMM_object_draw_sprites			false
 //--------------------------------------------------//
 
 //Set true to draw tilesets.
