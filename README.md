@@ -7,6 +7,10 @@
 > Change to desired values.
 - Create an object.
   
+- Add to create event:
+  ```gml
+  GMMinimap();
+  ```
 - Add to room start event:
   ```gml
   GMMinimap.generate(objPlayer, c_red, [objWall, objDoor], [c_gray, c_orange]);
