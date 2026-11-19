@@ -7,7 +7,7 @@ function GMMinimap() {
 	__MapData();
 	
 	/**
-	* Add to an objects room start event or trigger, generate a map of instances in the current room based on set array of objects and colour(s).
+	* Add to an objects room start event or trigger manually to generate a map of instances in the current room based on set array of objects and colour(s).
 	* @param {asset.GMObject | id.instance} _player Player object asset or instance id.
 	* @param {constant.color} _player_colour Player colour.
 	* @param {array<asset.GMObject>} _objects Object assets.
