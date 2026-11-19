@@ -14,7 +14,6 @@ function GMMinimap() {
 	static generate = function(_player, _player_colour, _objects, _colours = c_white) {
 		
 		static __data = __MapData();
-		static __ztest = false;
 		
 		__data.__player = _player;
 		__data.__player_colour = _player_colour;
@@ -32,7 +31,7 @@ function GMMinimap() {
 		
 		if GMMM_3D_game {
 			
-			__ztest = gpu_get_ztestenable();
+			__data.__ztest ??= gpu_get_ztestenable();
 			gpu_set_ztestenable(false);
 		}
 		
@@ -85,7 +84,7 @@ function GMMinimap() {
 			}
 		}
 		if GMMM_3D_game {
-			gpu_set_ztestenable(__ztest);
+			gpu_set_ztestenable(__data.__ztest );
 		}
 		surface_reset_target();
 	}

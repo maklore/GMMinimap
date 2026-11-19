@@ -10,6 +10,7 @@ function __MapData() {
 	static __map_room_height = 0;
 	static __map_room_half_width  = 0;
 	static __map_room_half_height = 0;
+	static __ztest = undefined;
 	static __player = noone;
 	static __player_colour = c_black;
 	static __objects = undefined;
