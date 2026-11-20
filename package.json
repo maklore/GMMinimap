@@ -1,9 +1,9 @@
 {
   "name": "@maklore/gmminimap",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Generate a minimap of set objects and colour(s) of the current room.\r\n\r\nRepository:\r\nhttps://github.com/maklore/GMMinimap",
   "files": [
-    "com.maklore.gmminimap-1.2.0.yymps"
+    "com.maklore.gmminimap-1.2.1.yymps"
   ],
   "keywords": [
     "cookbook-7",

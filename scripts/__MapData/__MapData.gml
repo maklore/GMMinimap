@@ -10,6 +10,8 @@ function __MapData() {
 	static __map_area_left_y = 0;
 	static __map_area_bottom_x = room_width;
 	static __map_area_right_y = room_height;
+	static __map_area_offset_x = 0;
+	static __map_area_offset_y = 0;
 	static __map_area_half_bottom_x = undefined;
 	static __map_area_half_right_y = undefined;
 	static __ztest = undefined;
@@ -23,5 +25,3 @@ function __MapData() {
 	return static_get(__MapData);
 
 }
-
-//__MapData();

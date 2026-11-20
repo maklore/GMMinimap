@@ -17,7 +17,7 @@ function GMMinimap() {
 	* @param {real} [_bottom_x] Bottom x pos. Default is room_width.
 	* @param {real} [_right_y] Bottom y pos. Default is room_height.
 	*/
-	static generate = function(_player, _player_colour, _objects, _colours = undefined, _top_x = __MapData.__map_area_top_x, _left_y = __MapData.__map_area_left_y, _bottom_x = __MapData.__map_area_bottom_x, _right_y = __MapData.__map_area_right_y) {
+	static generate = function(_player, _player_colour, _objects, _colours = undefined, _top_x = 0, _left_y = 0, _bottom_x = room_width, _right_y = room_height) {
 		
 		static __data = __MapData();
 		
@@ -27,7 +27,9 @@ function GMMinimap() {
 		__data.__map_area_left_y = _left_y;
 		__data.__map_area_bottom_x = _bottom_x;
 		__data.__map_area_right_y = _right_y;
-		__data.__map_area_half_bottom_x = __data.__map_area_bottom_x  * 0.5;
+		__data.__map_area_offset_x = __data.__map_area_top_x < 0 ? abs(__data.__map_area_top_x) : 0;
+		__data.__map_area_offset_y = __data.__map_area_left_y < 0 ? abs(__data.__map_area_left_y) : 0;
+		__data.__map_area_half_bottom_x = __data.__map_area_bottom_x * 0.5;
 		__data.__map_area_half_right_y = __data.__map_area_right_y * 0.5;
 		__data.__objects = _objects;
 		__data.__colours = _colours;
@@ -64,7 +66,7 @@ function GMMinimap() {
 							if _tile_x >= __data.__map_area_top_x and _tile_x <= __data.__map_area_bottom_x and 
 							   _tile_y >= __data.__map_area_left_y and _tile_y <= __data.__map_area_right_y {
 								
-								draw_tile(_tileset, _tile, 0, _tile_x, _tile_y);
+								draw_tile(_tileset, _tile, 0, __data.__map_area_offset_x + _tile_x, __data.__map_area_offset_y + _tile_y);
 							}
 						}
 					}
@@ -98,7 +100,7 @@ function GMMinimap() {
 						_sprite = sprite_index;
 					}
 						
-					other.__draw_sprite_stretched_rot(_sprite, 0, x, y, sprite_width, sprite_height, image_angle, _colour, 1);
+					other.__draw_sprite_stretched_rot(_sprite, 0, __data.__map_area_offset_x + x, __data.__map_area_offset_y + y, sprite_width, sprite_height, image_angle, _colour, 1);
 
 				}
 			}
@@ -131,19 +133,21 @@ function GMMinimap() {
 		}
 		
 		if !surface_exists(__data.__surface) {
-			generate(__data.__player, __data.__player_colour, __data.__objects, __data.__colours);
+			generate(__data.__player, __data.__player_colour, __data.__objects, __data.__colours, __data.__map_area_top_x, __data.__map_area_left_y, __data.__map_area_bottom_x, __data.__map_area_right_y);
 		}
 		
 		//Map
-		var _distance_to_player = point_distance(__data.__map_area_half_bottom_x, __data.__map_area_half_right_y, __data.__player.x, __data.__player.y);
-		var _direction_to_player = point_direction(__data.__map_area_half_bottom_x, __data.__map_area_half_right_y, __data.__player.x, __data.__player.y);
+		var _center_x = __data.__map_area_half_bottom_x;
+		var _center_y = __data.__map_area_half_right_y;
+		var _distance_to_player = point_distance(_center_x, _center_y, __data.__player.x, __data.__player.y);
+		var _direction_to_player = point_direction(_center_x, _center_y, __data.__player.x, __data.__player.y);
 		var _ldirx = lengthdir_x(_distance_to_player, _direction_to_player);
 		var _ldiry = lengthdir_y(_distance_to_player, _direction_to_player);
 		var _scale_adjustment = 1 / _scale;
 		var _half_width  = _width * 0.5;
 		var _half_height = _height * 0.5;
-		var _map_pos_x   = _ldirx + __data.__map_area_half_bottom_x - _half_width * _scale_adjustment;
-		var _map_pos_y   = _ldiry + __data.__map_area_half_right_y - _half_height * _scale_adjustment;
+		var _map_pos_x   = _ldirx + __data.__map_area_half_bottom_x + __data.__map_area_offset_x - _half_width * _scale_adjustment;
+		var _map_pos_y   = _ldiry + __data.__map_area_half_right_y + __data.__map_area_offset_y  - _half_height * _scale_adjustment;
 		var _map_width   = _width * _scale_adjustment;
 		var _map_height  = _height * _scale_adjustment;
 		
