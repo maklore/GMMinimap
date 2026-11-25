@@ -9,7 +9,7 @@ function GMMinimap() {
 	/**
 	* Add to an objects room start event or trigger manually to generate a map of instances in the current room based on set array of objects and colour(s).
 	* @param {asset.GMObject | id.instance} _player Player object asset or instance id.
-	* @param {constant.color} _player_colour Player colour.
+	* @param {constant.color} _player_colour Player colour. If set undefined, will use player objects sprite_index and image_index.
 	* @param {array<asset.GMObject>} _objects Object assets.
 	* @param {constant.color | array<constant.color>} [_colours] Colour, or an array of colours in order of object assets, if colour set as undefined it will draw the objects assigned sprite. Default is undefined, and will draw objects assigned sprite.
 	* @param {real} [_top_x] Top x pos. Default is 0.
@@ -22,7 +22,8 @@ function GMMinimap() {
 		static __data = __MapData();
 		
 		__data.__player	= _player;
-		__data.__player_colour = _player_colour;
+		__data.__player_colour = is_undefined(_player_colour) ? c_white : _player_colour;
+		__data.__player_sprite = is_undefined(_player_colour) ? undefined : __data.__pixel_sprite;
 		__data.__map_area_top_x = _top_x;
 		__data.__map_area_left_y = _left_y;
 		__data.__map_area_bottom_x = _bottom_x;
@@ -49,7 +50,7 @@ function GMMinimap() {
 			
 			var _layer = layer_get_all();
 			var _layer_count = array_length(_layer);
-			for (var i = 0; i < _layer_count; ++i) {
+			for (var i = _layer_count - 1; i > 0 ; --i) {
 				var _layer_tilemap = layer_tilemap_get_id(_layer[i]);
 				
 				if _layer_tilemap != -1 {
@@ -259,8 +260,10 @@ function GMMinimap() {
 		var _player_half_height = _player_height * 0.5;
 		var _player_x = _x + _half_width - _player_half_width;
 		var _player_y = _y + _half_height - _player_half_height;
-
-		__draw_sprite_stretched_rot(__data.__pixel_sprite, 0, _player_x + _player_half_width, _player_y + _player_half_height, _player_width, _player_height, GMMM_map_rotate ? GMMM_map_rotate_angle_target : 0, __data.__player_colour, 1);
+		var _player_sprite = is_undefined(__data.__player_sprite) ? __data.__player.sprite_index : __data.__player_sprite;
+		var _player_sprite_sub_img = _player_sprite == __data.__player_sprite ? 0 : __data.__player.image_index;
+		
+		__draw_sprite_stretched_rot(_player_sprite, _player_sprite_sub_img, _player_x + _player_half_width, _player_y + _player_half_height, _player_width, _player_height, GMMM_map_rotate ? GMMM_map_rotate_angle_target : 0, __data.__player_colour, 1);
 		
 		if !is_undefined(GMMM_frame_set_sprite)  {
 			draw_sprite_stretched_ext(GMMM_frame_set_sprite, 0, _x, _y, _width, _height, c_white, 1);
