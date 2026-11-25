@@ -22,7 +22,7 @@ function GMMinimap() {
 		static __data = __MapData();
 		
 		__data.__player	= _player;
-		__data.__player_colour = is_undefined(_player_colour) ? c_white : _player_colour;
+		__data.__player_colour = is_undefined(_player_colour) ? undefined : _player_colour;
 		__data.__player_sprite = is_undefined(_player_colour) ? undefined : __data.__pixel_sprite;
 		__data.__map_area_top_x = _top_x;
 		__data.__map_area_left_y = _left_y;
@@ -262,8 +262,9 @@ function GMMinimap() {
 		var _player_y = _y + _half_height - _player_half_height;
 		var _player_sprite = is_undefined(__data.__player_sprite) ? __data.__player.sprite_index : __data.__player_sprite;
 		var _player_sprite_sub_img = _player_sprite == __data.__player_sprite ? 0 : __data.__player.image_index;
+		var _player_colour = is_undefined(__data.__player_colour) ? c_white : __data.__player_colour;
 		
-		__draw_sprite_stretched_rot(_player_sprite, _player_sprite_sub_img, _player_x + _player_half_width, _player_y + _player_half_height, _player_width, _player_height, GMMM_map_rotate ? GMMM_map_rotate_angle_target : 0, __data.__player_colour, 1);
+		__draw_sprite_stretched_rot(_player_sprite, _player_sprite_sub_img, _player_x + _player_half_width, _player_y + _player_half_height, _player_width, _player_height, GMMM_map_rotate ? GMMM_map_rotate_angle_target : 0, _player_colour, 1);
 		
 		if !is_undefined(GMMM_frame_set_sprite)  {
 			draw_sprite_stretched_ext(GMMM_frame_set_sprite, 0, _x, _y, _width, _height, c_white, 1);
